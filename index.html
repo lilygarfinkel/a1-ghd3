@@ -1,10 +1,151 @@
-<script src="https://d3js.org/d3.v6.min.js"></script>
+<html>
+  <head> 
+    <h1>
+       Race against the circle and square! Try and guess how fast they will go 
+    </h1>
+    <meta charset="utf-8" />
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+  </head>
+  <body>
+    <div id="simpleShapes" width="300px" height="200px">
+      <svg width="500" height="500" stroke="black">
+        <polygon points="50,350 100,350 75,300" fill="#FF9800" />
+        <rect x="50" y="200" width="50" height="50" fill="#9C27B0" />
+        <circle cx="75" cy="100" r="25" fill="#8BC34A" />
+        <line x1="450" x2="450" y1="50" y2="450" stroke="red" />
+      </svg>
+      <div style="display: inline-block; vertical-align: top" width="50%">
+        <form>
+          <h2>Select the speed of opponents</h2>
+          <div>
+            <input id="slow" type="radio" name="speed" value="slow" />Slow<br />
+            <input
+              id="medium"
+              type="radio"
+              name="speed"
+              value="medium"
+            />Medium<br />
+            <input
+              id="fast"
+              type="radio"
+              name="speed"
+              value="fast"
+            />Fast<br /><br />
+            <button onclick="runTransitions()" type="button">Start Race</button>
+            <button onclick="removeTransitions()">Restart</button>
+          </div>
+        </form>
 
-<script>
-  console.log(d3); // test if d3 is loaded
-  // Add an SVG
-  // Add Rectangles
-  // Add Circles
-  // Add Lines
-  // Add Polygons
-</script>
+        <h2>Select the speed of the triangle</h2>
+        <p>
+          fastest ------- slowest
+        </p>
+        <input
+          type="range"
+          min="1000"
+          max="8000"
+          value="5000"
+          class="slider"
+          id="range"
+        />
+        <div id="demo"></div>
+      </div>
+    </div>
+  </body>
+
+  <script>
+    var slider = document.getElementById("range");
+    var x = slider.value;
+    var output = document.getElementById("demo");
+    //output.innerHTML = slider.value;
+    // Update the current slider value (each time you drag the slider handle)
+    slider.oninput = function () {
+      x = this.value;
+     // output.innerHTML = this.value;
+    };
+
+    var speedBtn = document.getElementById("speed");
+    var speed = 0;
+      for(i = 0; i < speedBtn.length; i++) {
+                if(speedbtn[i].checked){
+               speed =  speedBtn[i].value;
+            }
+        }
+
+    function runTransitions() {
+  
+      var polyTransition = d3.select("polygon").transition();
+      var rectTransition = d3.select("rect").transition();
+      var circleTransition = d3.select("circle").transition();
+
+      //pretty colors
+      polyTransition.style("fill", "#FFC107").duration(1000);
+      rectTransition.style("fill", "#673AB7").duration(1000);
+      circleTransition.style("fill", "#009688").duration(1000);
+
+      //SLOW
+      if (speed = slow) {
+        polyTransition.attr("transform", "translate(350)").duration(x);
+        rectTransition
+          .attr("transform", "translate(350)")
+          .duration(getRandom(1));
+        circleTransition
+          .attr("transform", "translate(350)")
+          .duration(getRandom(1));
+      }
+      //MEDIUM
+      if (speed = medium) {
+        polyTransition.attr("transform", "translate(350)").duration(x);
+        rectTransition
+          .attr("transform", "translate(350)")
+          .duration(getRandom(2));
+        circleTransition
+          .attr("transform", "translate(350)")
+          .duration(getRandom(2));
+      }
+      //FAST
+      if (speed = fast) {
+        polyTransition.attr("transform", "translate(350)").duration(x);
+        rectTransition
+          .attr("transform", "translate(350)")
+          .duration(getRandom(3));
+        circleTransition
+          .attr("transform", "translate(350)")
+          .duration(getRandom(3));
+      }
+      return
+    }
+
+    function getRandom(x) {
+      if ((x = 1)) {
+        min = 8000;
+        max = 6000;
+      }
+      if ((x = 2)) {
+        min = 6000;
+        max = 4000;
+      }
+      if ((x = 3)) {
+        min = 4000;
+        max = 2000;
+      }
+      return Math.random() * (max - min) + min;
+    }
+
+    function removeTransitions() {
+      d3.select("polygon")
+        // .transition()
+        .attr("points", "50,350 100,350 75,300")
+        .attr("transform", "translate(0)")
+        .style("fill", "#FF9800");
+      d3.select("rect")
+        .transition()
+        .attr("transform, translate(0)")
+        .attr("width", 50)
+        .attr("height", 50)
+        .style("fill", "#9C27B0");
+      d3.select("circle").transition().attr("r", 25).style("fill", "#8BC34A");
+    }
+  </script>
+</html>
+
